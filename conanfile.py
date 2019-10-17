@@ -17,14 +17,20 @@ class XSDInstallerConan(ConanFile):
     _build_subfolder = "build_subfolder"
     requires = "xerces-c/3.2.2@bincrafters/stable"
 
+    @property
+    def _is_mingw_windows(self):
+        return self.settings.os_build == "Windows" and self.settings.compiler == "gcc" and os.name == "nt"
+
+    def build_requirements(self):
+        if self._is_mingw_windows and "CONAN_BASH_PATH" not in os.environ:
+            self.build_requires("msys2_installer/latest@bincrafters/stable")
+
     def source(self):
         version_tokens = self.version.split(".")
         major_minor = "%s.%s" % (version_tokens[0], version_tokens[1])
         source_url = "https://www.codesynthesis.com/download/xsd/{}/xsd-{}+dep.tar.bz2".format(major_minor, self.version)
         tools.get(source_url, sha256="eca52a9c8f52cdbe2ae4e364e4a909503493a0d51ea388fc6c9734565a859817")
         extracted_dir = "xsd-%s+dep" % self.version
-        self.run("ls -lah")
-        # Rename to "source_subfolder" is a convention to simplify later steps
         os.rename(extracted_dir, self._source_subfolder)
 
     def build(self):
@@ -34,7 +40,7 @@ class XSDInstallerConan(ConanFile):
                               "#include <algorithm>",
                               "#include <algorithm>\n#include <iostream>")
         with tools.chdir(self._source_subfolder):
-            env_build = AutoToolsBuildEnvironment(self)
+            env_build = AutoToolsBuildEnvironment(self, win_bash=tools.os_info.is_windows)
             env_build.make()
             env_build.install(args=["install_prefix=%s" % self.package_folder])
 
