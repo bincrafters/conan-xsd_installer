@@ -22,7 +22,7 @@ class XSDInstallerConan(ConanFile):
         return self.settings.os_build == "Windows" and self.settings.compiler == "gcc" and os.name == "nt"
 
     def build_requirements(self):
-        if self._is_mingw_windows and "CONAN_BASH_PATH" not in os.environ:
+        if tools.os_info.is_windows and "CONAN_BASH_PATH" not in os.environ:
             self.build_requires("msys2_installer/latest@bincrafters/stable")
 
     def source(self):
