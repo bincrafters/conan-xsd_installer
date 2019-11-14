@@ -45,9 +45,11 @@ class XSDInstallerConan(ConanFile):
                               "#include <algorithm>",
                               "#include <algorithm>\n#include <iostream>")
         with tools.chdir(self._source_subfolder):
+            prefix = self.package_folder
+            prefix = tools.unix_path(prefix) if tools.os_info.is_windows else prefix
             env_build = AutoToolsBuildEnvironment(self, win_bash=tools.os_info.is_windows)
             env_build.make()
-            env_build.install(args=["install_prefix=%s" % self.package_folder])
+            env_build.install(args=["install_prefix=%s" % prefix])
 
     def package(self):
         self.copy(pattern="LICENSE", dst="licenses", src=self._source_subfolder)
