@@ -1,0 +1,35 @@
+From 1ba457d7a08600cd65486a9f261bcf047f3c0d45 Mon Sep 17 00:00:00 2001
+From: SSE4 <tomskside@gmail.com>
+Date: Thu, 14 Nov 2019 12:52:54 +0700
+Subject: [PATCH] - fix pointer cast losing precision
+
+Signed-off-by: SSE4 <tomskside@gmail.com>
+---
+ libxsd-frontend/xsd-frontend/xml.hxx | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libxsd-frontend/xsd-frontend/xml.hxx b/libxsd-frontend/xsd-frontend/xml.hxx
+index d33f6bf..fc1881f 100644
+--- a/libxsd-frontend/xsd-frontend/xml.hxx
++++ b/libxsd-frontend/xsd-frontend/xml.hxx
+@@ -221,7 +221,7 @@ namespace XSDFrontend
+       {
+         //@@ cache
+         //
+-        return reinterpret_cast<unsigned long> (e_->getUserData (line_key));
++        return reinterpret_cast<intptr_t> (e_->getUserData (line_key));
+       }
+ 
+       unsigned long
+@@ -229,7 +229,7 @@ namespace XSDFrontend
+       {
+         //@@ cache
+         //
+-        return reinterpret_cast<unsigned long> (e_->getUserData (column_key));
++        return reinterpret_cast<intptr_t> (e_->getUserData (column_key));
+       }
+ 
+     public:
+-- 
+2.21.0
+

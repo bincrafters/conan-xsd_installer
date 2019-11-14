@@ -1,5 +1,6 @@
 from conans import ConanFile, AutoToolsBuildEnvironment, tools
 import os
+import glob
 
 
 class XSDInstallerConan(ConanFile):
@@ -12,6 +13,7 @@ class XSDInstallerConan(ConanFile):
     author = "Bincrafters <bincrafters@gmail.com>"
     license = "GPL-2.0-only"
     exports = ["LICENSE.md"]
+    exports_sources = ["patches/*.patch"]
     settings = "os_build", "arch_build", "compiler"
     _source_subfolder = "source_subfolder"
     _build_subfolder = "build_subfolder"
@@ -34,6 +36,9 @@ class XSDInstallerConan(ConanFile):
         os.rename(extracted_dir, self._source_subfolder)
 
     def build(self):
+        for filename in sorted(glob.glob("patches/*.patch")):
+            self.output.info('applying patch "%s"' % filename)
+            tools.patch(base_path=self._source_subfolder, patch_file=filename)
         # https://www.codesynthesis.com/pipermail/xsd-users/2015-February/004529.html
         tools.replace_in_file(os.path.join(self._source_subfolder, "libxsd-frontend", "xsd-frontend",
                                            "semantic-graph", "elements.cxx"),
