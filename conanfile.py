@@ -54,6 +54,7 @@ class XSDInstallerConan(ConanFile):
 
     def package_id(self):
         del self.info.settings.compiler
+        self.info.include_build_settings()
 
     def package_info(self):
         bindir = os.path.join(self.package_folder, "bin")
