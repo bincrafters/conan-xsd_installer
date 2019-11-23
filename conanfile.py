@@ -10,14 +10,13 @@ class XSDInstallerConan(ConanFile):
     topics = ("conan", "xsd", "xml", "binding")
     url = "https://github.com/bincrafters/conan-xsd_installer"
     homepage = "https://www.codesynthesis.com/projects/xsd/"
-    author = "Bincrafters <bincrafters@gmail.com>"
     license = "GPL-2.0-only"
     exports = ["LICENSE.md"]
     exports_sources = ["patches/*.patch"]
     settings = "os_build", "arch_build", "compiler"
     _source_subfolder = "source_subfolder"
     _build_subfolder = "build_subfolder"
-    requires = "xerces-c/3.2.2@bincrafters/stable"
+    requires = "xerces-c/3.2.2"
 
     @property
     def _is_mingw_windows(self):
@@ -25,7 +24,7 @@ class XSDInstallerConan(ConanFile):
 
     def build_requirements(self):
         if tools.os_info.is_windows and "CONAN_BASH_PATH" not in os.environ:
-            self.build_requires("msys2_installer/latest@bincrafters/stable")
+            self.build_requires("msys2/20161025")
 
     def source(self):
         version_tokens = self.version.split(".")
