@@ -24,7 +24,7 @@ class XSDInstallerConan(ConanFile):
 
     def build_requirements(self):
         if tools.os_info.is_windows and "CONAN_BASH_PATH" not in os.environ:
-            self.build_requires("msys2/20161025")
+            self.build_requires("msys2/20190524")
 
     def source(self):
         version_tokens = self.version.split(".")
