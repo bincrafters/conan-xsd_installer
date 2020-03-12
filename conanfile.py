@@ -11,7 +11,6 @@ class XSDInstallerConan(ConanFile):
     url = "https://github.com/bincrafters/conan-xsd_installer"
     homepage = "https://www.codesynthesis.com/projects/xsd/"
     license = "GPL-2.0-only"
-    exports = ["LICENSE.md"]
     exports_sources = ["patches/*.patch"]
     settings = "os_build", "arch_build", "compiler"
     _source_subfolder = "source_subfolder"
