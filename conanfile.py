@@ -15,7 +15,7 @@ class XSDInstallerConan(ConanFile):
     settings = "os_build", "arch_build", "compiler"
     _source_subfolder = "source_subfolder"
     _build_subfolder = "build_subfolder"
-    requires = "xerces-c/3.2.2"
+    requires = "xerces-c/3.2.3"
 
     @property
     def _is_mingw_windows(self):
